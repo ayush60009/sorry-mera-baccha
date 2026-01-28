@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Sorry Panda 🐼❤️</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+
+<style>
+body{
+    margin:0;
+    font-family:'Poppins',sans-serif;
+    background:linear-gradient(135deg,#ffd6e8,#fff0f6);
+    overflow:hidden;
+}
+.card{
+    max-width:420px;
+    background:white;
+    padding:25px;
+    border-radius:22px;
+    box-shadow:0 20px 40px rgba(0,0,0,0.15);
+    margin:40px auto;
+    text-align:center;
+    animation:pop 0.6s ease;
+}
+@keyframes pop{
+    from{transform:scale(0.8);opacity:0}
+    to{transform:scale(1);opacity:1}
+}
+h1{
+    font-family:'Pacifico',cursive;
+    color:#ff4d6d;
+}
+button{
+    width:100%;
+    padding:14px;
+    margin:10px 0;
+    border:none;
+    border-radius:30px;
+    font-size:16px;
+    cursor:pointer;
+}
+.btn1{background:#ffccd5}
+.btn2{background:#caffbf}
+.btn3{background:#ff85a2;color:white}
+
+.heart{
+    position:fixed;
+    bottom:-20px;
+    font-size:18px;
+    animation:float 6s linear infinite;
+}
+@keyframes float{
+    to{transform:translateY(-110vh);opacity:0}
+}
+</style>
+</head>
+
+<body>
+
+<audio id="bgm" loop>
+<source src="https://cdn.pixabay.com/download/audio/2022/10/30/audio_2f5b4b7c4a.mp3" type="audio/mpeg">
+</audio>
+
+<div class="card" id="card">
+<h1>My Panda 🐼❤️</h1>
+<p>
+Mishti… mujhe pata hai tum bahut zyada hurt ho 💔  
+aur honestly… **galti meri hai**.
+<br><br>
+Jab maine bola “let’s be friends”,  
+woh meri tongue thi, **mera dil nahi**.
+<br><br>
+Sach yeh hai —  
+I don’t want just physical things,  
+**I want YOU**, tumhari soul, tumhara saath, tumhara forever.
+<br><br>
+I am sorry…  
+so sorry…  
+really really sorry…  
+hazaar baar sorry Panda 😞
+</p>
+
+<button class="btn1" onclick="choose('Hurt')">💔 Abhi bhi dard hai</button>
+<button class="btn2" onclick="choose('Forgive')">🫂 Iss baar maaf kar rahi hoon</button>
+<button class="btn3" onclick="choose('Love')">💖 I love you more</button>
+</div>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+<script>
+/* 🔥 REPLACE WITH YOUR FIREBASE CONFIG */
+var firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT.firebaseapp.com",
+    databaseURL: "https://YOUR_PROJECT.firebaseio.com",
+    projectId: "YOUR_PROJECT",
+    storageBucket: "YOUR_PROJECT.appspot.com",
+    messagingSenderId: "XXXX",
+    appId: "XXXX"
+};
+firebase.initializeApp(firebaseConfig);
+
+/* 🎵 play music on first interaction */
+document.body.addEventListener('click',()=>{
+    document.getElementById("bgm").play();
+},{once:true});
+
+/* ❤️ floating hearts */
+setInterval(()=>{
+    let h=document.createElement("div");
+    h.className="heart";
+    h.innerHTML="💖";
+    h.style.left=Math.random()*100+"vw";
+    h.style.animationDuration=(4+Math.random()*3)+"s";
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),7000);
+},400);
+
+function choose(choice){
+    firebase.database().ref("pandaResponse").push({
+        response: choice,
+        time: new Date().toLocaleString()
+    });
+
+    let msg="",wa="";
+    if(choice==="Hurt"){
+        msg=`Panda 🐼💔<br>
+        I understand… abhi dard hai.<br>
+        Main rukunga, sudharunga, aur prove karunga ki I deserve you.<br>
+        Sorry… sorry… sorry.`;
+        wa="Panda… mujhe pata hai tum hurt ho 😞 Main wait karunga. I love you. Hazaar baar sorry.";
+    }
+    if(choice==="Forgive"){
+        msg=`Thank you meri Panda 🫂❤️<br>
+        Tumne mujhe ek aur chance diya… I promise dobara kabhi aisa nahi hoga.<br>
+        Sorry for everything.`;
+        wa="Thank you Panda 🐼❤️ Tumhara maaf karna mere liye sab kuch hai. I love you. Sorry.";
+    }
+    if(choice==="Love"){
+        msg=`Meri duniya 🐼💖<br>
+        Tumhara “I love you more” sunke sab theek lagne laga.<br>
+        I swear I’ll protect your heart.`;
+        wa="I love you so much Panda 🐼💖 Tum meri duniya ho. Sorry for hurting you.";
+    }
+
+    document.getElementById("card").innerHTML=`
+        <h1>For You 🐼</h1>
+        <p>${msg}</p>
+        <p style="font-size:13px;color:#777">Tumhara answer safe hai ❤️</p>
+    `;
+
+    setTimeout(()=>{
+        window.open("https://wa.me/91XXXXXXXXXX?text="+encodeURIComponent(wa),"_blank");
+    },1500);
+}
+</script>
+
+</body>
+</html>
